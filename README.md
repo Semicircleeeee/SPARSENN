@@ -29,4 +29,6 @@ You can directly install the package from PyPI.
 
 For the step-by-step tutoral, please refer to the notebook:
 
+https://github.com/tianlq-prog/SPARSENN/blob/master/Tutorial/example.ipynb
+
 # Citation
