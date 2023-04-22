@@ -26,6 +26,20 @@ You can directly install the package from PyPI.
 - **data-preprocessing**
 
 
+```pythonscript
+data_preprocessing(pos=None, neg=None, 
+                       pos_adductlist=["M+H","M+NH4","M+Na","M+ACN+H","M+ACN+Na","M+2ACN+H","2M+H","2M+Na","2M+ACN+H"], 
+                       neg_adductlist = ["M-H","M-2H","M-2H+Na","M-2H+K","M-2H+NH4","M-H2O-H","M-H+Cl","M+Cl","M+2Cl"], 
+                       idx_feature = 4, match_tol_ppm=5, zero_threshold=0.75, log_transform=True, scale=1000)
+```
+                       
+- **sparse_nn** 
+```pythonscript
+sparse_nn(expression, target, partition, feature_meta, sparsify_coefficient=0.3, threshold_layer_size=100, 
+              num_hidden_layer_neuron_list=[20], drop_out=0.3, random_seed=10, 
+              batch_size=32, lr=0.001, weight_decay=0, num_epoch=100)
+```
+
 # Tutorial 
 
 For the step-by-step tutoral, please refer to the notebook:
