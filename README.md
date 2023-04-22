@@ -12,11 +12,18 @@ We introduce an integrated deep learning framework for metabolomics data that ta
 
 # Installation
 
-## PypI
+- PypI
 
 You can directly install the package from PyPI.
 
 `pip install MetaMatching==0.2.3`
+
+# Function in MetaMatching
+
+|  **Function**  | **Description**                                                                                       |
+| :--------------: | ----------------------------------------------------------------------------------------------------------- |
+|  data-preprocessing  | Preprocssing of the raw feature data. Match the features to potential metabolites, obtain their uncertainty matching matrix and the metabolic network. The annotation is based on the m/z of features. |
+| sparse_nn | Train the model and output the analysis result in folder 'res'.         |
 
 # Tutorial 
 
