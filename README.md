@@ -14,7 +14,7 @@ We introduce an integrated deep learning framework for metabolomics data that ta
 
 You can directly install the package from PyPI.
 
-`pip install MetaMatching==0.2.3`
+`pip install MetaMatching==1.0.1`
 
 
 # Tutorial 
