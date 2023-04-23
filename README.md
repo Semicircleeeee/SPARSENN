@@ -27,12 +27,51 @@ You can directly install the package from PyPI.
 
 
 ```pythonscript
-data_preprocessing(pos=None, neg=None, 
+data_preprocessing(pos=pos, neg=neg, 
                        pos_adductlist=["M+H","M+NH4","M+Na","M+ACN+H","M+ACN+Na","M+2ACN+H","2M+H","2M+Na","2M+ACN+H"], 
                        neg_adductlist = ["M-H","M-2H","M-2H+Na","M-2H+K","M-2H+NH4","M-H2O-H","M-H+Cl","M+Cl","M+2Cl"], 
                        idx_feature = 4, match_tol_ppm=5, zero_threshold=0.75, log_transform=True, scale=1000)
 ```
-                       
+- `pos`
+(DataFrame) The dataframe of positive features. The first two columns should be m/z and time.
+
+Default: None
+
+- `neg`
+(DataFrame) The dataframe of negative features. The first two columns should be m/z and time.
+
+Default: None
+
+- `pos_adductlist`
+(list) The list of ion adduct for positive features.
+
+Default: `["M+H","M+NH4","M+Na","M+ACN+H","M+ACN+Na","M+2ACN+H","2M+H","2M+Na","2M+ACN+H"]`
+
+- `neg_adductlist`
+(list) The list of ion adduct for negative features.
+
+Default: `["M-H", "M-2H", "M-2H+Na", "M-2H+K", "M-2H+NH4", "M-H2O-H", "M-H+Cl", "M+Cl", "M+2Cl"]`
+
+- `idx_feature`
+(int) The number of columns of information for `pos` and `neg`. If the data only contains columns of `m/z` and `time`, the value should be 2.
+Default: 4
+
+- `match_tol_ppm`
+(int) The tolerance of the maximum difference of m/z value between observation and known value in reference KEGG database during annotation equals `match_tol_ppm/1e6`. 
+Default: 5
+
+- `zero_threshold`
+(float) The threshold of zero expression when selection features. Only keep features with no more than `zero_threshold` of zero expression. The value should be in range of (0, 1).
+Default: 0.75
+
+- `log_transform`
+(boolean) Whether conduct (log+1) transformation to the feature data.
+Default: True
+
+- `scale`
+(int) Whether to scale the feature data to be in range from [-scale/2, scale/2]. If `scale=False`, then no scaling will be conducted.
+Default: 1000
+
 - **sparse_nn** 
 ```pythonscript
 sparse_nn(expression, target, partition, feature_meta, sparsify_coefficient=0.3, threshold_layer_size=100, 
