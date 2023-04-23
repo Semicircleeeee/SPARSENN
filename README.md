@@ -16,6 +16,13 @@ You can directly install the package from PyPI.
 
 `pip install MetaMatching==0.2.3`
 
+
+# Tutorial 
+
+For the step-by-step tutoral, please refer to the notebook:
+
+https://github.com/tianlq-prog/SPARSENN/blob/master/Tutorial/example.ipynb
+
 # Function in MetaMatching
 
 |  **Function**  | **Description**                                                                                       |
@@ -23,8 +30,7 @@ You can directly install the package from PyPI.
 |  **data-preprocessing**  | Preprocssing of the raw feature data. Match the features to potential metabolites, obtain their uncertainty matching matrix and the metabolic network. The annotation is based on the m/z of features. |
 | **sparse_nn** | Train the model and output the analysis result in folder 'res'.         |
 
-#### **data-preprocessing**
-
+### **data-preprocessing**
 
 ```pythonscript
 data_preprocessing(pos=pos, neg=neg, 
@@ -72,17 +78,64 @@ Default: True
 (int) Whether to scale the feature data to be in range from [-scale/2, scale/2]. If `scale=False`, then no scaling will be conducted.
 Default: 1000
 
-#### **sparse_nn** 
+### **sparse_nn** 
 ```pythonscript
 sparse_nn(expression, target, partition, feature_meta, sparsify_coefficient=0.3, threshold_layer_size=100, 
               num_hidden_layer_neuron_list=[20], drop_out=0.3, random_seed=10, 
               batch_size=32, lr=0.001, weight_decay=0, num_epoch=100)
 ```
 
-# Tutorial 
+- `expression`
+(array) The expression of feature expression. The shape should be sample_size * feature_size.
+Default: None
 
-For the step-by-step tutoral, please refer to the notebook:
+- `target`
+(array) The label of samples. The size shoule be sample_size.
+Default: None
 
-https://github.com/tianlq-prog/SPARSENN/blob/master/Tutorial/example.ipynb
+- `partition`
+(array) The adjacency matrix of metabolites. Element one means there is a linkage between two metabolites, zero means no linkage. The shape should be metabolite_size * metabolite_size
+Default: None
+
+- `feature_meta`
+(array) The matching relationship between features and metabolites. The shape should be feature_size * metabolite_size
+Default: None
+
+- `sparsity_coefficient`
+(float) The sparse ratio of the sparse layer. 
+Default: 0.3
+
+- `threshold_layer_size`
+(int) The threshold which decides the number of sparse layer. We use fully connected layers when the number of hidden neurons was lower than the threshold.
+Default: 100
+
+- `num_hidden_layer_neuron_list`
+(list) The number of hidden layer neuron for the fully connected layers. It can contains more than one element.
+Default: [20]
+
+- `drop_out`
+(float) The dropout rate used in the function of `nn.Droupout` in the fully connected part.
+Default: 0.3
+
+- `random_seed`
+(int) The random seed when training the model.
+Default: 10
+
+- `batch_size`
+(int) The batch size for each batch when training the model. 
+Default: 32
+
+- `lr`
+(float) The learning rate for the Adam optimizer.
+Default: 0.001
+
+- `weight_decay`
+(float) The weight decay for the Adam optimizer.
+Default: 0
+
+- `num_epoch`
+(int) The number of epoch in the training procedure
+Default: 100
+
 
 # Citation
