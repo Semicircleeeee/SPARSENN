@@ -115,14 +115,14 @@ def data_preprocessing(pos=None, neg=None,
     # select only the compounds that are in the graph
      
     if pos is not None and neg is not None:
-        dic_pos = find_keggid(new_dat.loc[new_dat.index.str.contains('pos')], kegg_sub, pos_adductlist)
-        dic_neg = find_keggid(new_dat.loc[new_dat.index.str.contains('neg')], kegg_sub, neg_adductlist)
+        dic_pos = find_keggid(new_dat.loc[new_dat.index.str.contains('pos')], kegg_sub, pos_adductlist, match_tol_ppm)
+        dic_neg = find_keggid(new_dat.loc[new_dat.index.str.contains('neg')], kegg_sub, neg_adductlist, match_tol_ppm)
 
         dic = {**dic_pos, **dic_neg}
     elif pos is not None:
-        dic = find_keggid(new_dat.loc[new_dat.index.str.contains('pos')], kegg_sub, pos_adductlist)
+        dic = find_keggid(new_dat.loc[new_dat.index.str.contains('pos')], kegg_sub, pos_adductlist, match_tol_ppm)
     elif neg is not None:
-        dic = find_keggid(new_dat.loc[new_dat.index.str.contains('neg')], kegg_sub, neg_adductlist)
+        dic = find_keggid(new_dat.loc[new_dat.index.str.contains('neg')], kegg_sub, neg_adductlist, match_tol_ppm)
 
     data_annos, matchings, adj_matrices, metabolites = get_data(dic, new_dat, g)
     
