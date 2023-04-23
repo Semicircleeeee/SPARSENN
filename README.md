@@ -23,7 +23,7 @@ You can directly install the package from PyPI.
 |  **data-preprocessing**  | Preprocssing of the raw feature data. Match the features to potential metabolites, obtain their uncertainty matching matrix and the metabolic network. The annotation is based on the m/z of features. |
 | **sparse_nn** | Train the model and output the analysis result in folder 'res'.         |
 
-- **data-preprocessing**
+#### **data-preprocessing**
 
 
 ```pythonscript
@@ -72,7 +72,7 @@ Default: True
 (int) Whether to scale the feature data to be in range from [-scale/2, scale/2]. If `scale=False`, then no scaling will be conducted.
 Default: 1000
 
-- **sparse_nn** 
+#### **sparse_nn** 
 ```pythonscript
 sparse_nn(expression, target, partition, feature_meta, sparsify_coefficient=0.3, threshold_layer_size=100, 
               num_hidden_layer_neuron_list=[20], drop_out=0.3, random_seed=10, 
