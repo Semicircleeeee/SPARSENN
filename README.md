@@ -12,9 +12,15 @@ We introduce an integrated deep learning framework for metabolomics data that ta
 
 # Installation
 
-You can directly install the package from PyPI.
+1. You can directly install the package from PyPI.
 
 `pip install MetaMatching==1.0.1`
+
+2. Also, You can download the package from GitHub and install it locally:
+
+`git clone https://github.com/tianlq-prog/SPARSENN.git
+cd SPARSENN/
+python3 setup.py install`
 
 
 # Tutorial 
