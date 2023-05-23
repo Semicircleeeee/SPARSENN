@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# @Time : 2023/4/21 17:19
+# @Time : 2023/5/21 17:19
 # @Author : Leqi Tian
 # @File : setup.py
 
@@ -7,10 +7,10 @@ from setuptools import setup
 from setuptools import find_packages
 
 
-VERSION = '1.0.1'
+VERSION = '1.0.0'
 
 setup(
-    name='MetaMatching',  # package name
+    name='meta_matching_tool',  # package name
     version=VERSION,  # package version
     description='An integrated deep learning framework for the interpretation of untargeted metabolomics data',  
     packages=find_packages(),
