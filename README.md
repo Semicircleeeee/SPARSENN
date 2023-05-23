@@ -15,7 +15,7 @@ We introduce an integrated deep learning framework for metabolomics data that ta
 1. You can directly install the package from PyPI.
 
 ```pythonscript
-pip install MetaMatching==1.0.1
+pip install meta-matching-tool
 ```
 
 2. Also, You can download the package from GitHub and install it locally:
@@ -32,7 +32,7 @@ For the step-by-step tutoral, please refer to the notebook:
 
 https://github.com/tianlq-prog/SPARSENN/blob/master/Tutorial/example.ipynb
 
-# Function in MetaMatching
+# Function in meta_matching_tool
 
 |  **Function**  | **Description**                                                                                       |
 | :--------------: | ----------------------------------------------------------------------------------------------------------- |
