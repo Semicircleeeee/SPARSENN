@@ -15,7 +15,7 @@ We introduce an integrated deep learning framework for metabolomics data that ta
 1. You can directly install the package from PyPI.
 
 ```pythonscript
-pip install meta-matching-tool
+pip install meta-matching-tool -i https://pypi.org/simple
 ```
 
 2. Also, You can download the package from GitHub and install it locally:
