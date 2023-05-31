@@ -16,7 +16,9 @@ We introduce an integrated deep learning framework for metabolomics data that ta
 
 ```pythonscript
 pip install meta-matching-tool  
+```
 or
+```pythonscript
 pip install meta-matching-tool -i https://pypi.org/simple
 ```
 
