@@ -8,8 +8,21 @@ from torch.nn.parameter import Parameter
 import torch.nn.functional as F
 import torch.nn.init as init
 import os
+import zipfile
 
 package_dir = os.path.abspath(os.path.dirname(__file__))
+
+
+zip_path = os.path.join(package_dir, 'data', 'kegg.txt.zip')
+output_dir = "data/"
+
+# Check if the zip file exists
+if os.path.exists(zip_path):
+    # Open the zip file
+    with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+        # Extract all the files
+        zip_ref.extractall(output_dir)
+    os.remove(zip_path)
 
 #################### Function for data pre-processing ####################
 
