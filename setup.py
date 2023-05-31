@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# @Time : 2023/5/21 17:19
+# @Time : 2023/5/28 17:19
 # @Author : Leqi Tian
 # @File : setup.py
 
@@ -9,7 +9,7 @@ from setuptools import setup
 with open("README.md", "r") as fh:
   long_description = fh.read()
 
-VERSION = '1.6.0'
+VERSION = '1.8.0'
 
 setup(
     name='meta_matching_tool',  # package name
@@ -32,5 +32,9 @@ setup(
         'torch >= 1.11.0',
     ],
     packages=find_packages(exclude=('Tutorial', 'docs', 'notebooks', 'real_data_preprocessing')),
+    package_data={
+        'meta_matching_tool': ['data/*'],  # Update the package name and directory accordingly
+    },
+    include_package_data=True,
     zip_safe=False,
 )
