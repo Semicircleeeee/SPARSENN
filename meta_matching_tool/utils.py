@@ -314,7 +314,7 @@ class SparseLinear(nn.Module):
             return out
  
         self.linear = myLinear(in_dim, out_dim, True)
-        self.mask = torch.ones([out_dim, in_dim]).byte()
+        self.mask = torch.ones([out_dim, in_dim]).bool()
         self.mask[indices_mask] = 0 # create mask
         self.linear.weight.data[self.mask] = 0 # zero out bad weights
         self.linear.weight.register_hook(backward_hook) # hook to zero out bad gradients
