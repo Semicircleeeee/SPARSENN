@@ -10,7 +10,7 @@ import torch.nn.init as init
 import os
 import zipfile
 
-package_dir = "E:\\SPARSENN\\Tutorial\\meta_matching_tool"
+package_dir = "E:\\SPARSENN\\Modified_model\\meta_matching_tool"
 # package_dir = os.path.abspath(os.path.dirname(__file__))
 
 
@@ -222,6 +222,7 @@ def getPartitionMatricesList(sparsify_hidden_layer_size_dict, degree_dict, featu
         for j in range(num_nodes_to_remove):  
             if sorted_node_degree_list[j][1] < max_to_remove_node_degree:
                 id_to_remove_node = sorted_node_degree_list[j][0]
+                # print(sorted_node_degree_list[j])
                 temp_remove_list.append(id_to_remove_node)
             else:
                 break  # node with more degrees is not under consideration
@@ -270,6 +271,9 @@ def getPartitionMatricesList(sparsify_hidden_layer_size_dict, degree_dict, featu
         
         for j in range(len(temp_remove_list)):
             degree_dict.pop(temp_remove_list[j])
+            
+        if i == len(sparsify_hidden_layer_size_dict) - 1:
+            print(next_layer_list)
 
         partition_mtx_dict["p%d" % i] = temp_partition
 
@@ -289,63 +293,9 @@ def getNodeDegreeDict(partition):
 
     return degree_dict
 
-############### Sparse-nn function #################
-def truncated_normal_(tensor,mean=0,std=0.09):
-    with torch.no_grad():
-        size = tensor.shape
-        tmp = tensor.new_empty(size+(4,)).normal_()
-        valid = (tmp < 2) & (tmp > -2)
-        ind = valid.max(-1, keepdim=True)[1]
-        tensor.data.copy_(tmp.gather(-1, ind).squeeze(-1))
-        tensor.data.mul_(std).add_(mean)
-        return tensor
-    
-class myLinear(nn.Module):
-    __constants__ = ['bias']
- 
-    def __init__(self, in_features, out_features, bias=True):
-        super(myLinear, self).__init__()
-        self.in_features = in_features
-        self.out_features = out_features
-        self.weight = Parameter(torch.Tensor(out_features, in_features))
-        if bias:
-            self.bias = Parameter(torch.Tensor(out_features))
-        else:
-            self.register_parameter('bias', None)
-        self.reset_parameters()
- 
-    def reset_parameters(self):
-        self.weight = truncated_normal_(self.weight, mean = 0, std = 0.1)
-        if self.bias is not None:
-            fan_in, _ = init._calculate_fan_in_and_fan_out(self.weight)
-            bound = 1 / math.sqrt(fan_in)
-            init.uniform_(self.bias, -bound, bound)
- 
-    
-    def forward(self, input):
-        return F.linear(input, self.weight, self.bias)
-    
-class SparseLinear(nn.Module):
-    """
-    Define our linear connection layer which enabled sparse connection
-    """
-    def __init__(self, in_dim, out_dim, m):
-        indices_mask = [np.where(m==1)[1].tolist(),np.where(m==1)[0].tolist()]
-        
-        super(SparseLinear, self).__init__()
- 
-        def backward_hook(grad):
-            # Clone due to not being allowed to modify in-place gradients
-            out = grad.clone()
-            out[self.mask] = 0
-            return out
- 
-        self.linear = myLinear(in_dim, out_dim, True)
-        self.mask = torch.ones([out_dim, in_dim]).bool()
-        self.mask[indices_mask] = 0 # create mask
-        self.linear.weight.data[self.mask] = 0 # zero out bad weights
-        self.linear.weight.register_hook(backward_hook) # hook to zero out bad gradients
- 
-    def forward(self, input):
-        return self.linear(input)
 
+## Functions for backward selection.
+def getKeggidByIndex(raw_keggid, idxs, output_dir):
+    
+    
+    raise NotImplementedError

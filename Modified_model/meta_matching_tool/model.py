@@ -9,6 +9,7 @@ import random
 import warnings
 import os
 import csv
+from .diymodules import *
 
 class Net(nn.Module):
     """
