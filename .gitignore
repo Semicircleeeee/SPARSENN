@@ -93,5 +93,3 @@ dmypy.json
 cython_debug/
 
 *.txt
-
-*.
