@@ -21,18 +21,17 @@ class Net(nn.Module):
         for i in range(len(partition_mtx_dict)):
             mtx = partition_mtx_dict["p%d" % i]  # the mask matrix
             layer1.add_module('f'+ str(i), SparseLinear(mtx.shape[0], mtx.shape[1], mtx))
-            layer1.add_module("f_relu"+str(i), nn.ReLU(True))
             #layer1.add_module("bn1"+str(i), nn.BatchNorm1d(mtx.shape[1]))
         self.layer1 = layer1
         
         layer2 = nn.Sequential()
         num_hidden_layer_neuron_list = [mtx.shape[1]] + num_hidden_layer_neuron_list + [2]
         for j in range(1, len(num_hidden_layer_neuron_list)-1):
-            layer2.add_module('h'+str(j), myLinear(num_hidden_layer_neuron_list[j-1], num_hidden_layer_neuron_list[j]))
+            layer2.add_module('h'+str(j), nn.Linear(num_hidden_layer_neuron_list[j-1], num_hidden_layer_neuron_list[j]))
             layer2.add_module('h_relu'+str(j), nn.ReLU(True))
             #layer2.add_module("bn2"+str(j), nn.BatchNorm1d(num_hidden_layer_neuron_list[j]))
             layer2.add_module('h_drop'+str(j), nn.Dropout(p=keep_prob))
-        layer2.add_module('h'+str(j+1), myLinear(num_hidden_layer_neuron_list[j], num_hidden_layer_neuron_list[j+1]))
+        layer2.add_module('h'+str(j+1), nn.Linear(num_hidden_layer_neuron_list[j], num_hidden_layer_neuron_list[j+1]))
         self.layer2 = layer2
         
     def forward(self,input):

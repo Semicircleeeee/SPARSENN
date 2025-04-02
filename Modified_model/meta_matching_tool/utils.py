@@ -10,7 +10,10 @@ import torch.nn.init as init
 import os
 import zipfile
 
-package_dir = "E:\\SPARSENN\\Modified_model\\meta_matching_tool"
+# Windows
+# package_dir = "E:\\SPARSENN\\Modified_model\\meta_matching_tool"
+# Macos
+package_dir = "/Users/watertank/Desktop/SPARSENN/Modified_model/meta_matching_tool"
 # package_dir = os.path.abspath(os.path.dirname(__file__))
 
 
@@ -61,6 +64,7 @@ def get_data(dic, new_dat, g):
     
     metabolites = np.unique(sum([value for key, value in dic.items() if value!=[]], []))
 
+    
     # get feature data  
     data_anno_new = new_dat.loc[features,:]
     print("The shape of data:", data_anno_new.shape)
@@ -296,6 +300,6 @@ def getNodeDegreeDict(partition):
 
 ## Functions for backward selection.
 def getKeggidByIndex(raw_keggid, idxs, output_dir):
-    
-    
+    match_dic = {}
+
     raise NotImplementedError
