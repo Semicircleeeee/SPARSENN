@@ -290,6 +290,8 @@ def getPartitionMatricesList(sparsify_hidden_layer_size_dict, degree_dict, featu
 
     return partition_mtx_dict, residual_connection_dic
 
+
+# This might not be used in my settings.
 def getNodeDegreeDict(partition):
     """
     Obtain the node degree using the adjacent matrix of metabolic network
