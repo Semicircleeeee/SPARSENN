@@ -207,6 +207,7 @@ def getPartitionMatricesList(sparsify_hidden_layer_size_dict, degree_dict, featu
     sum_remove_node_list = []  # keep note of which nodes are already removed
     
     partition_mtx_dict = {}
+    residual_connection_dic = {}
 
     partition_mtx_dict["p0"] = feature_meta  # first matrix being the connection from features to meta
     partition_mtx_dict["p1"] = partition  # first matrix being the whole adjacency matrix
@@ -231,8 +232,7 @@ def getPartitionMatricesList(sparsify_hidden_layer_size_dict, degree_dict, featu
             else:
                 break  # node with more degrees is not under consideration
         
-        # Is it English below? TODO: check this
-        # sample from all nodes that have max_to_remove_node_degree to reach number of nodes required to be removed
+        # sample from all nodes that have max_to_remove_node_degree to reach number of nodes to remove
         sample_list = []
         for j in range(len(temp_remove_list), len(sorted_node_degree_list)):
             if sorted_node_degree_list[j][1] == max_to_remove_node_degree:
@@ -253,6 +253,9 @@ def getPartitionMatricesList(sparsify_hidden_layer_size_dict, degree_dict, featu
         sum_remove_node_list += temp_remove_list
         temp_partition = np.delete(temp_partition, sum_remove_node_list, axis=1)
         next_layer_list = [x for x in all_list if x not in sum_remove_node_list]
+
+        # Residual connection layer
+        residual_location = [previous_layer_list.index(x) for x in next_layer_list]
         
         # assign each neuron at least one linkage
         # I believe this is a mistake...
@@ -276,12 +279,16 @@ def getPartitionMatricesList(sparsify_hidden_layer_size_dict, degree_dict, featu
         for j in range(len(temp_remove_list)):
             degree_dict.pop(temp_remove_list[j])
             
-        if i == len(sparsify_hidden_layer_size_dict) - 1:
-            print(next_layer_list)
+        # if i == len(sparsify_hidden_layer_size_dict) - 1:
+        #     print(next_layer_list)
 
         partition_mtx_dict["p%d" % i] = temp_partition
 
-    return partition_mtx_dict
+        residual_connection_dic["p%d" % i] = residual_location
+
+        print(residual_location)
+
+    return partition_mtx_dict, residual_connection_dic
 
 def getNodeDegreeDict(partition):
     """

@@ -15,12 +15,19 @@ class Net(nn.Module):
     """
     The network structure
     """
-    def __init__(self,partition_mtx_dict, num_hidden_layer_neuron_list, keep_prob):
+    def __init__(self,partition_mtx_dict, residual_connection_dict, num_hidden_layer_neuron_list, keep_prob):
         super(Net,self).__init__()
         layer1 = nn.Sequential()
-        for i in range(len(partition_mtx_dict)):
+        feature_meta_mtx = partition_mtx_dict["p%d" % 0]
+        layer1.add_module('f0', nn.Linear(feature_meta_mtx.shape[0], feature_meta_mtx.shape[1]))
+        layer1.add_module('relu0', nn.ReLU())
+        meta_2_meta_mtx = partition_mtx_dict["p%d" % 1]
+        layer1.add_module('f1', nn.Linear(meta_2_meta_mtx.shape[0], meta_2_meta_mtx.shape[1]))
+        layer1.add_module('relu1', nn.ReLU())
+        for i in range(2, len(partition_mtx_dict)):
             mtx = partition_mtx_dict["p%d" % i]  # the mask matrix
-            layer1.add_module('f'+ str(i), SparseLinear(mtx.shape[0], mtx.shape[1], mtx))
+            residual_connect = residual_connection_dict["p%d" % i]
+            layer1.add_module('f'+ str(i), SparseLinear(mtx, residual_connect))
             #layer1.add_module("bn1"+str(i), nn.BatchNorm1d(mtx.shape[1]))
         self.layer1 = layer1
         
@@ -51,7 +58,7 @@ def sparse_nn(expression, target, partition, feature_meta, sparsify_coefficient=
     # For sparsity control
     sparsify_hidden_layer_size_dict = getLayerSizeList(partition, threshold_layer_size, sparsify_coefficient)
     degree_dict = getNodeDegreeDict(partition)
-    partition_mtx_dict = getPartitionMatricesList(sparsify_hidden_layer_size_dict, degree_dict, feature_meta, partition)
+    partition_mtx_dict, residual_connection_dict = getPartitionMatricesList(sparsify_hidden_layer_size_dict, degree_dict, feature_meta, partition)
 
     # split train and test set
     x_train, x_val, y_train, y_val = train_test_split(
@@ -68,7 +75,7 @@ def sparse_nn(expression, target, partition, feature_meta, sparsify_coefficient=
     np.random.seed(random_seed)
     random.seed(random_seed)
 
-    net = Net(partition_mtx_dict, num_hidden_layer_neuron_list, drop_out).to(device)
+    net = Net(partition_mtx_dict, residual_connection_dict, num_hidden_layer_neuron_list, drop_out).to(device)
     warnings.filterwarnings("ignore", category=UserWarning)
 
     optimizer = torch.optim.Adam(net.parameters(), lr=lr, weight_decay = weight_decay)
