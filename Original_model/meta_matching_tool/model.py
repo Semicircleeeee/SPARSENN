@@ -120,7 +120,7 @@ def sparse_nn(expression, target, partition, feature_meta, sparsify_coefficient=
             pred_y = prediction.cpu().data.numpy().squeeze()
             target_y = y.cpu().data.numpy()
 
-            accuracy = sum(target_y ==np.argmax(pred_y, axis=1))/len(target_y)
+            accuracy = sum(target_y == np.argmax(pred_y, axis=1))/len(target_y)
             acc_train.append(accuracy)
 
             val_input_tensor = (torch.from_numpy(x_val)).type(torch.FloatTensor).to(device)
@@ -132,7 +132,7 @@ def sparse_nn(expression, target, partition, feature_meta, sparsify_coefficient=
                 best_test = acc_val_i
                 corr_train = accuracy
                 torch.save(net, 'res/model'+str(random_seed)+'.pkl')
-            print(f'epoch: {epoch}, train acc: {accuracy}, val acc: {acc_val_i}')
+            print(f'epoch: {epoch + 1}, train acc: {accuracy}, val acc: {acc_val_i}')
     
     # Downstream analysis
     params = []

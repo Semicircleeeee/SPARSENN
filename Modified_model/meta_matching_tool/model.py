@@ -39,6 +39,7 @@ class Net(nn.Module):
             #layer2.add_module("bn2"+str(j), nn.BatchNorm1d(num_hidden_layer_neuron_list[j]))
             layer2.add_module('h_drop'+str(j), nn.Dropout(p=keep_prob))
         layer2.add_module('h'+str(j+1), nn.Linear(num_hidden_layer_neuron_list[j], num_hidden_layer_neuron_list[j+1]))
+        layer2.add_module('h'+str(j+2), nn.Softmax(dim=-1))
         self.layer2 = layer2
         
     def forward(self,input):
@@ -48,17 +49,18 @@ class Net(nn.Module):
     
 
 # Define the function for train the model 
-def sparse_nn(expression, target, partition, feature_meta, sparsify_coefficient=0.3, threshold_layer_size=100, 
+def sparse_nn(expression, target, target_keggids, feature_meta, knowledge_graph, sparsify_coefficient=0.3,
               num_hidden_layer_neuron_list=[20], drop_out=0.3, random_seed=10, batch_size=32, lr=0.001, weight_decay=0,
               num_epoch=100):
 
     # set the partition to be self-connected
+    partition = np.zeros((feature_meta.shape[1], feature_meta.shape[1]))
     np.fill_diagonal(partition, 1)
 
     # For sparsity control
-    sparsify_hidden_layer_size_dict = getLayerSizeList(partition, threshold_layer_size, sparsify_coefficient)
-    degree_dict = getNodeDegreeDict(partition)
-    partition_mtx_dict, residual_connection_dict = getPartitionMatricesList(sparsify_hidden_layer_size_dict, degree_dict, feature_meta, partition)
+    sparsify_hidden_layer_size_dict = getLayerSizeList(feature_meta.shape[1], len(target_keggids), sparsify_coefficient)
+    # degree_dict = getNodeDegreeDict(partition)
+    partition_mtx_dict, residual_connection_dict = getPartitionMatricesList(sparsify_hidden_layer_size_dict, target_keggids, feature_meta, knowledge_graph)
 
     # split train and test set
     x_train, x_val, y_train, y_val = train_test_split(
