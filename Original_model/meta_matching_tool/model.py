@@ -103,7 +103,7 @@ def sparse_nn(expression, target, partition, feature_meta, sparsify_coefficient=
         if ((acc_val_i >0.9) &(accuracy>0.9)):
             break
         net.train()
-        for step, (x_batch, y_batch) in enumerate(loader):  # 每个训练步骤
+        for step, (x_batch, y_batch) in enumerate(loader): 
             x_batch = x_batch.to(device)
             y_batch = y_batch.to(device)
             optimizer.zero_grad()

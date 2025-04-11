@@ -5,9 +5,11 @@ import math
 import os
 import zipfile
 import random
+import scipy.stats as stats
 
 # Windows
 # package_dir = "E:\\SPARSENN\\Modified_model\\meta_matching_tool"
+
 # Macos
 package_dir = "/Users/watertank/Desktop/SPARSENN/Modified_model/meta_matching_tool"
 # package_dir = os.path.abspath(os.path.dirname(__file__))
@@ -162,7 +164,7 @@ def data_preprocessing(pos=None, neg=None,
         
         data_annos.iloc[:,idx_feature:] = expression.T
 
-    return(data_annos, matchings, sub_graph, metabolites)
+    return(data_annos, matchings, sub_graph, metabolites, dic)
 
 ###################### Function for main model ######################
 
@@ -406,3 +408,29 @@ def backwardSelect(final_keggids, subgraph: ig.Graph, numberOfNodesList: list):
         mergedNodeList.append(temp)
     mergedNodeList.reverse()
     return mergedNodeList
+
+
+def featureSelection(data: pd.DataFrame, indices, p_value = 0.05):
+
+    """A simple function for variable selection.
+    INPUT: 
+    data: a feature by sample data frame
+    indices: a tuple indicating the indices of the samples of different labels, i.e. ([T],[F])
+    number: number of features we want
+    p_value: threshold for the two sample t test 
+    """
+    group_1 = data.iloc[:, indices[0]]
+    group_2 = data.iloc[:, indices[1]]
+    results = data.apply(
+        lambda row: stats.ttest_ind(a = group_1.loc[row.name], b = group_2.loc[row.name]),
+        axis=1
+    )
+
+    results_df = pd.DataFrame(results.tolist(), columns=['t_statistic', 'p_value'], index=data.index)
+
+    results_df.sort_values('p_value', inplace=True)
+
+    results_df.reset_index(inplace=True)
+
+    print(results_df)
+    return results_df

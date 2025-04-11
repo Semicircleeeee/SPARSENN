@@ -108,7 +108,7 @@ def sparse_nn(expression, target, target_keggids, feature_meta, knowledge_graph,
     if not os.path.exists("res"):
         os.mkdir("res")
 
-    for epoch in range(num_epoch): 
+    for epoch in range(1, num_epoch + 1): 
         if ((acc_val_i >0.9) &(accuracy>0.9)):
             break
         net.train()
