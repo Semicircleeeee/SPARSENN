@@ -11,7 +11,10 @@ import scipy.stats as stats
 # package_dir = "E:\\SPARSENN\\Modified_model\\meta_matching_tool"
 
 # Macos
-package_dir = "/Users/watertank/Desktop/SPARSENN/Modified_model/meta_matching_tool"
+# package_dir = "/Users/watertank/Desktop/SPARSENN/Modified_model/meta_matching_tool"
+
+# Server
+package_dir = "/home/keyan/phynn/Modified_model/meta_matching_tool"
 # package_dir = os.path.abspath(os.path.dirname(__file__))
 
 

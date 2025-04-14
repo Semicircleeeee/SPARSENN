@@ -93,3 +93,6 @@ dmypy.json
 cython_debug/
 
 *.txt
+*.csv
+*.tsv
+data/
